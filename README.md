@@ -4,6 +4,13 @@ An original, API-free 3D periodic-table experience. Every element has an isotope
 
 The project includes automated scientific-model tests and a repository deployment workflow. A full reproducibility record is in [SCIENTIFIC_PROVENANCE.md](./SCIENTIFIC_PROVENANCE.md).
 
+## Live experience
+
+Explore the public build at [yosoyun.github.io/periodic-field-guide](https://yosoyun.github.io/periodic-field-guide/).
+
+Every push to `main` validates the complete 118-element model, isotope arithmetic,
+molecular structures, and atom geometry before GitHub Pages is deployed.
+
 ## Run locally
 
 ```bash
