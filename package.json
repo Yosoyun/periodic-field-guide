@@ -1,0 +1,24 @@
+{
+  "name": "periodic-field-guide",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.15.1",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "type": "module",
+  "scripts": {
+    "start": "vite --host 127.0.0.1 --port 4174 --strictPort",
+    "dev": "vite --host 127.0.0.1 --port 4174 --strictPort",
+    "build": "vite build",
+    "build:sites": "node scripts/build-sites.mjs",
+    "preview": "vite preview --host 127.0.0.1 --port 4174 --strictPort",
+    "test": "node scripts/test-model.mjs && node scripts/test-isotopes.mjs && node scripts/test-structures.mjs && node scripts/test-atom-geometry.mjs"
+  },
+  "dependencies": {
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "vite": "^8.2.0"
+  }
+}

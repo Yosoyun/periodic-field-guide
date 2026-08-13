@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="presentation" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="badge" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FCFAF4"/>
+      <stop offset="1" stop-color="#E9E1D5"/>
+    </linearGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#E7B657"/>
+      <stop offset="1" stop-color="#D86749"/>
+    </linearGradient>
+  </defs>
+
+  <path d="M90 8c25 0 56 12 70 33 13 21 14 56 3 81-12 25-38 45-66 49-29 4-62-8-77-31C4 117 7 80 20 54 34 27 62 8 90 8Z" fill="#34465F" opacity=".12"/>
+  <path d="M90 4c27 0 57 12 71 35 14 22 11 57-1 80-13 24-39 42-67 45-28 3-60-9-74-32C5 109 8 76 22 51 36 25 63 4 90 4Z" fill="url(#badge)" stroke="#34465F" stroke-width="4" stroke-linejoin="round"/>
+
+  <g fill="none" stroke="#527FB0" stroke-width="4" opacity=".9">
+    <ellipse cx="90" cy="87" rx="58" ry="25" transform="rotate(24 90 87)"/>
+    <ellipse cx="90" cy="87" rx="58" ry="25" transform="rotate(-24 90 87)"/>
+    <ellipse cx="90" cy="87" rx="23" ry="59"/>
+  </g>
+
+  <g stroke="#34465F" stroke-width="3">
+    <circle cx="89" cy="87" r="15" fill="url(#core)"/>
+    <circle cx="42" cy="59" r="7" fill="#59A890"/>
+    <circle cx="138" cy="57" r="7" fill="#7C6E9D"/>
+    <circle cx="91" cy="146" r="7" fill="#527FB0"/>
+  </g>
+  <path d="M83 79c4-4 10-5 15-2" fill="none" stroke="#FFF2C7" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+</svg>

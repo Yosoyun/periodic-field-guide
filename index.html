@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f1e8" />
+    <meta
+      name="description"
+      content="Element Field is an interactive, API-free 3D periodic table for exploring atomic shells and idealized molecular geometry."
+    />
+    <meta name="color-scheme" content="light" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Element Field — an interactive 3D atomic atlas" />
+    <meta
+      property="og:description"
+      content="Explore all 118 elements, exact neutral-atom particle counts, isotopes, and curated molecular geometry—without an API."
+    />
+    <title>Element Field — 3D periodic table</title>
+    <link rel="icon" href="./assets/illustrations/atom-badge.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#scene-heading">Skip to the 3D explorer</a>
+
+    <div class="app-root">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="Element Field home">
+          <img src="./assets/illustrations/atom-badge.svg" alt="" width="42" height="42" />
+          <span>
+            <strong>Element Field</strong>
+            <small>an atomic atlas</small>
+          </span>
+        </a>
+
+        <nav class="primary-nav" aria-label="Explorer sections">
+          <button class="nav-item is-active" type="button" data-command="focus-scene">
+            <span aria-hidden="true">✦</span> Explore
+          </button>
+          <button class="nav-item" type="button" data-command="open-table">
+            <span aria-hidden="true">▦</span> Elements
+          </button>
+          <button class="nav-item" type="button" data-command="focus-structures">
+            <span aria-hidden="true">⬡</span> Structures
+          </button>
+        </nav>
+
+        <div class="search-shell" id="search-shell">
+          <label class="search-control" for="element-search">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input
+              id="element-search"
+              type="search"
+              role="combobox"
+              autocomplete="off"
+              aria-autocomplete="list"
+              aria-controls="search-results"
+              aria-expanded="false"
+              placeholder="Search all 118 elements…"
+              aria-label="Find an element by name, symbol, or atomic number"
+            />
+            <kbd>/</kbd>
+          </label>
+          <div class="search-results" id="search-results" role="listbox" aria-label="Element search results" hidden></div>
+        </div>
+
+        <div class="header-actions">
+          <button class="icon-button table-toggle" id="table-toggle" type="button" aria-controls="element-panel" aria-expanded="false">
+            <span aria-hidden="true">▦</span><span class="sr-only">Open element table</span>
+          </button>
+          <button class="reset-button" id="reset-button" type="button">
+            <span aria-hidden="true">↺</span> Reset
+          </button>
+        </div>
+      </header>
+
+      <main class="explorer-shell">
+        <aside class="element-panel" id="element-panel" aria-labelledby="table-heading" aria-hidden="true" inert>
+          <div class="panel-topline">
+            <div>
+              <span class="eyebrow">The complete atlas</span>
+              <h2 id="table-heading">118 elements</h2>
+            </div>
+            <button class="icon-button panel-close" id="panel-close" type="button" aria-label="Close element table">×</button>
+          </div>
+
+          <article class="element-ticket" aria-live="polite">
+            <div class="ticket-symbol family-nonmetal" id="ticket-symbol">
+              <small>16</small>
+              <strong>O</strong>
+            </div>
+            <div>
+              <span id="ticket-name">Oxygen</span>
+              <small id="ticket-meta">period 2 · group 16</small>
+            </div>
+            <span class="ticket-state" id="ticket-state">Gas</span>
+          </article>
+
+          <div class="family-scroller" id="family-list" aria-label="Filter elements by family"></div>
+
+          <div class="periodic-table-wrap">
+            <div
+              class="periodic-table"
+              id="periodic-table"
+              role="grid"
+              aria-label="Periodic table of 118 chemical elements. Use arrow keys to move between elements."
+            ></div>
+          </div>
+
+          <div class="table-footer">
+            <p><span class="visible-dot" aria-hidden="true"></span><strong id="visible-count">118</strong> visible</p>
+            <p>Arrow keys move · Enter selects</p>
+          </div>
+        </aside>
+
+        <section class="stage-column" aria-labelledby="scene-heading">
+          <section class="stage-card" id="stage-card">
+            <img class="edge-illustration illustration-left" src="./assets/illustrations/lab-botanical-left.svg" alt="" />
+            <img class="edge-illustration illustration-right" src="./assets/illustrations/crystal-glassware-right.svg" alt="" />
+
+            <header class="stage-header">
+              <div class="stage-title-group">
+                <div class="stage-context-row">
+                  <span class="eyebrow" id="stage-kicker">Element 8 · nonmetal</span>
+                  <div class="element-stepper" aria-label="Browse elements in atomic-number order">
+                    <button id="previous-element" type="button" aria-label="Previous element" title="Previous element">
+                      <span aria-hidden="true">←</span>
+                    </button>
+                    <span id="element-position" aria-hidden="true">08 / 118</span>
+                    <button id="next-element" type="button" aria-label="Next element" title="Next element">
+                      <span aria-hidden="true">→</span>
+                    </button>
+                  </div>
+                </div>
+                <h1 id="scene-heading" tabindex="-1"><span id="stage-title">Oxygen</span> <em id="stage-formula">O–16</em></h1>
+                <p id="stage-subtitle">Neutral Oxygen-16 · 2 occupied shells · exact composition shown below.</p>
+              </div>
+
+              <div class="stage-header-tools">
+                <div class="mode-switch" role="group" aria-label="Visualization mode">
+                  <button class="is-active" type="button" data-mode="atom" aria-pressed="true">Atom</button>
+                  <button type="button" data-mode="structure" aria-pressed="false">Models</button>
+                </div>
+
+                <div class="truth-chip" id="truth-chip">
+                  <span aria-hidden="true">◎</span>
+                  <span><strong>Exact particle counts</strong><small>schematic spatial model</small></span>
+                </div>
+              </div>
+            </header>
+
+            <div class="scene-wrap" id="scene-wrap">
+              <div class="scene-mount" id="scene-mount">
+                <div class="webgl-fallback" id="webgl-fallback" role="img" aria-label="Static schematic fallback for the selected element">
+                  <div class="fallback-orbit"><span id="fallback-symbol">O</span></div>
+                  <p>Interactive 3D is unavailable, but all element data remains accessible.</p>
+                </div>
+              </div>
+
+              <div class="drag-cue" id="drag-cue" aria-hidden="true">
+                <span>↔</span> drag to orbit
+              </div>
+
+              <div class="scene-annotation" id="scene-annotation">
+                <span class="annotation-index">01</span>
+                <div>
+                  <small id="annotation-label">Puckered geometry</small>
+                  <p id="annotation-copy">Alternating height keeps the ring from lying flat.</p>
+                </div>
+              </div>
+
+            </div>
+
+            <footer class="stage-controls learning-rail" aria-label="Atomic model and 3D view controls">
+              <section class="model-hud" id="model-hud" aria-live="polite">
+                <div class="model-hud-topline">
+                  <span class="eyebrow" id="model-hud-kicker">Exact composition</span>
+                  <strong id="model-hud-title">Oxygen-16</strong>
+                </div>
+                <div class="particle-counts" id="particle-counts">
+                  <span class="particle-count proton"><i aria-hidden="true"></i><b id="proton-count">8</b><small>protons</small></span>
+                  <span class="particle-count neutron"><i aria-hidden="true"></i><b id="neutron-count">8</b><small>neutrons</small></span>
+                  <span class="particle-count electron"><i aria-hidden="true"></i><b id="electron-count">8</b><small>electrons</small></span>
+                </div>
+                <div class="molecule-composition" id="molecule-composition" hidden></div>
+                <p id="model-hud-note">Neutral O-16: each nucleus sphere represents one nucleon.</p>
+              </section>
+              <div class="control-cluster">
+                <button type="button" id="camera-reset"><span aria-hidden="true">⌖</span> Reset view</button>
+                <button type="button" id="motion-toggle" aria-pressed="true"><span aria-hidden="true">◌</span> Motion on</button>
+                <button type="button" id="labels-toggle" aria-pressed="true"><span aria-hidden="true">Aa</span> Labels</button>
+              </div>
+              <button class="fullscreen-button" type="button" id="fullscreen-button" aria-label="Enter full screen">
+                <span aria-hidden="true">⛶</span><span>Full screen</span>
+              </button>
+            </footer>
+
+          <section class="structure-dock" id="structure-dock" aria-labelledby="structures-heading">
+            <div class="dock-heading">
+              <div>
+                <span class="eyebrow">Models for this element</span>
+                <h2 id="structures-heading">Molecules &amp; concept views</h2>
+              </div>
+              <p id="structure-availability">4 idealized teaching models</p>
+            </div>
+            <div class="structure-list" id="structure-list"></div>
+          </section>
+          </section>
+        </section>
+
+        <aside class="inspector" id="inspector" aria-labelledby="element-name">
+          <div class="sheet-handle" aria-hidden="true"></div>
+
+          <header class="profile-header">
+            <div>
+              <span class="eyebrow" id="element-kicker">Element 8 · nonmetal</span>
+              <h2 id="element-name">Oxygen</h2>
+              <p id="element-origin">Discovered in 1774</p>
+            </div>
+            <div class="symbol-seal family-nonmetal" id="symbol-seal" aria-hidden="true">
+              <small>8</small><strong>O</strong>
+            </div>
+          </header>
+
+          <section class="isotope-card" id="isotope-card" aria-labelledby="isotope-heading">
+            <div class="isotope-heading-row">
+              <div>
+                <span class="eyebrow">Nucleus lab</span>
+                <h3 id="isotope-heading">Choose an isotope</h3>
+              </div>
+              <span class="neutral-badge">charge 0</span>
+            </div>
+            <div class="isotope-list" id="isotope-list" role="group" aria-label="Available isotope models"></div>
+            <div class="nucleus-equation" aria-label="Mass number equals protons plus neutrons">
+              <span><b id="equation-mass">16</b><small>mass no.</small></span>
+              <em>=</em>
+              <span class="proton"><b id="equation-protons">8</b><small>p⁺</small></span>
+              <em>+</em>
+              <span class="neutron"><b id="equation-neutrons">8</b><small>n⁰</small></span>
+            </div>
+            <p class="isotope-explanation" id="isotope-explanation">Oxygen-16 is the most abundant naturally occurring oxygen isotope in the NIST reference composition.</p>
+          </section>
+
+          <section class="structure-study-card" id="structure-study-card" aria-labelledby="study-name" hidden>
+            <div class="study-heading-row">
+              <div>
+                <span class="eyebrow" id="study-kicker">Structure study</span>
+                <h3 id="study-name">Water</h3>
+              </div>
+              <div class="study-identity">
+                <strong id="study-formula">H₂O</strong>
+                <span id="study-status">Reference</span>
+              </div>
+            </div>
+            <div class="study-composition" id="study-composition" aria-label="Exact molecular composition"></div>
+            <dl class="study-metrics" id="study-metrics"></dl>
+            <div class="study-facts" id="study-facts"></div>
+            <a class="study-source" id="study-source" href="https://cccbdb.nist.gov/" target="_blank" rel="noreferrer">
+              Open geometry reference <span aria-hidden="true">↗</span>
+            </a>
+          </section>
+
+          <article class="story-card" id="story-card" hidden>
+            <span class="story-number">FIELD NOTE / 08</span>
+            <h3 id="story-title">The element of crowns, bridges, and shifting oxidation states</h3>
+            <p id="story-copy">Elemental sulfur is often introduced through puckered S₈ rings, while sulfur chemistry ranges from sulfides to sulfur oxides.</p>
+          </article>
+
+          <section class="fact-section" aria-labelledby="facts-heading">
+            <div class="section-heading-row">
+              <h3 id="facts-heading">Atomic field data</h3>
+              <span id="family-label">Nonmetal</span>
+            </div>
+            <dl class="fact-grid">
+              <div><dt id="atomic-mass-label">PubChem atomic-mass entry</dt><dd id="atomic-mass">15.999 u</dd></div>
+              <div><dt>Standard state</dt><dd id="standard-state">Gas</dd></div>
+              <div class="wide"><dt>Electron configuration</dt><dd id="electron-config">[He] 2s² 2p⁴</dd></div>
+              <div class="wide"><dt id="oxidation-states-label">Reported / predicted oxidation states</dt><dd id="oxidation-states">−2</dd></div>
+            </dl>
+
+            <details class="more-properties">
+              <summary>More atomic properties <span aria-hidden="true">＋</span></summary>
+              <dl class="secondary-fact-grid">
+                <div><dt>Electrons by shell</dt><dd id="shell-counts">2 · 6</dd></div>
+                <div><dt>Electronegativity (Pauling)</dt><dd id="electronegativity">3.44</dd></div>
+                <div><dt>van der Waals radius</dt><dd id="atomic-radius">152 pm</dd></div>
+                <div><dt>First ionization</dt><dd id="ionization-energy">13.618 eV</dd></div>
+              </dl>
+            </details>
+          </section>
+
+          <details class="model-notes" id="model-notes">
+            <summary>
+              <span>Model meaning &amp; sources</span>
+              <strong id="geometry-heading">2 principal shells</strong>
+            </summary>
+            <div class="model-notes-body">
+              <p id="geometry-copy">Mass number 16 = 8 protons + 8 neutrons. The 8 neutral-atom electrons occupy shells 2 · 6.</p>
+              <p id="truth-note-copy">Each nucleus sphere represents one proton or neutron. Electron totals are exact; packing, paths, sizes, colors, direction, speed, and spatial scale are schematic.</p>
+              <div class="source-links" aria-label="Scientific data sources">
+                <a href="https://pubchem.ncbi.nlm.nih.gov/periodic-table/" target="_blank" rel="noreferrer">PubChem element data ↗</a>
+                <a href="https://ciaaw.org/isotopic-abundances.htm" target="_blank" rel="noreferrer">CIAAW isotope data ↗</a>
+              </div>
+            </div>
+          </details>
+        </aside>
+      </main>
+    </div>
+
+    <div class="panel-scrim" id="panel-scrim" hidden></div>
+    <div class="loading-screen" id="loading-screen" role="status">
+      <div class="loading-atom" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
+      <p>Preparing the atomic field…</p>
+    </div>
+    <div class="sr-only" id="selection-announcer" aria-live="polite"></div>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
